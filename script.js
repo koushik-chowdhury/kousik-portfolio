@@ -241,3 +241,41 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.opacity = '1';
   }, 100);
 });
+
+//
+
+(function () {
+  const popup = document.getElementById('dev-protect-popup');
+  const closeBtn = popup.querySelector('.close-btn');
+
+  function showPopup() {
+    popup.style.display = 'flex';
+  }
+
+  function hidePopup() {
+    popup.style.display = 'none';
+  }
+
+  // Disable right click
+  document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+    showPopup();
+  });
+
+  // Detect key combinations
+  document.addEventListener('keydown', function (e) {
+    const key = e.key.toLowerCase();
+
+    const blocked =
+      (e.ctrlKey && ['u', 'i', 's', 'j'].includes(key)) ||
+      (e.ctrlKey && e.shiftKey && ['i', 'j', 'c'].includes(key)) ||
+      key === 'f12';
+
+    if (blocked) {
+      e.preventDefault();
+      showPopup();
+    }
+  });
+
+  closeBtn.addEventListener('click', hidePopup);
+})();
